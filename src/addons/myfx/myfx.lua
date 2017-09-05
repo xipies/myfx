@@ -8,6 +8,19 @@ require 'mob.mobinfo'
 
 local lor_packets = require 'lor.lor_packets_mod'
 
+local tiers = { };
+tiers[0] = '';
+tiers[1] = ' I';
+tiers[2] = ' II';
+tiers[3] = ' III';
+tiers[4] = ' IV';
+tiers[5] = ' V';
+tiers[6] = ' VI';
+tiers[7] = ' VII';
+tiers[8] = ' VIII';
+tiers[9] = ' IX';
+tiers[10] = ' X';
+
 ---------------------------------------------------------------------------------------------------
 -- desc: MyEffects global table.
 ---------------------------------------------------------------------------------------------------
@@ -281,6 +294,97 @@ danceMessageDefinitions[100] = { hasDance = true, resolveTarget = false, showDec
 
 local defaultDanceMessageDefinitions = { hasDance = false, resolveTarget = false, showDecayTime = false, useDuration = false };
 
+local spellActorTierDefinitions = { };
+
+-- TODO: Other songs
+-- Actor/Tier per spell
+-- Used for song being sung
+-- Lullaby is not handled this way
+spellActorTierDefinitions[368] = { hasActorTier = true, tier = 1 }; -- Foe Requiem
+spellActorTierDefinitions[369] = { hasActorTier = true, tier = 2 }; -- Foe Requiem II
+spellActorTierDefinitions[370] = { hasActorTier = true, tier = 3 }; -- Foe Requiem III
+spellActorTierDefinitions[371] = { hasActorTier = true, tier = 4 }; -- Foe Requiem IV
+spellActorTierDefinitions[372] = { hasActorTier = true, tier = 5 }; -- Foe Requiem V
+spellActorTierDefinitions[373] = { hasActorTier = true, tier = 6 }; -- Foe Requiem VI
+spellActorTierDefinitions[378] = { hasActorTier = true, tier = 1 }; -- Armys Paeon
+spellActorTierDefinitions[379] = { hasActorTier = true, tier = 2 }; -- Armys Paeon II
+spellActorTierDefinitions[380] = { hasActorTier = true, tier = 3 }; -- Armys Paeon III
+spellActorTierDefinitions[381] = { hasActorTier = true, tier = 4 }; -- Armys Paeon IV
+spellActorTierDefinitions[382] = { hasActorTier = true, tier = 5 }; -- Armys Paeon V
+spellActorTierDefinitions[383] = { hasActorTier = true, tier = 6 }; -- Armys Paeon VI
+spellActorTierDefinitions[386] = { hasActorTier = true, tier = 1 }; -- Mages Ballad
+spellActorTierDefinitions[387] = { hasActorTier = true, tier = 2 }; -- Mages Ballad II
+spellActorTierDefinitions[388] = { hasActorTier = true, tier = 3 }; -- Mages Ballad III
+spellActorTierDefinitions[389] = { hasActorTier = true, tier = 1 }; -- Knights Minne
+spellActorTierDefinitions[390] = { hasActorTier = true, tier = 2 }; -- Knights Minne II
+spellActorTierDefinitions[391] = { hasActorTier = true, tier = 3 }; -- Knights Minne III
+spellActorTierDefinitions[392] = { hasActorTier = true, tier = 4 }; -- Knights Minne IV
+spellActorTierDefinitions[393] = { hasActorTier = true, tier = 5 }; -- Knights Minne V
+spellActorTierDefinitions[394] = { hasActorTier = true, tier = 1 }; -- Valor Minuet
+spellActorTierDefinitions[395] = { hasActorTier = true, tier = 2 }; -- Valor Minuet II
+spellActorTierDefinitions[396] = { hasActorTier = true, tier = 3 }; -- Valor Minuet III
+spellActorTierDefinitions[397] = { hasActorTier = true, tier = 4 }; -- Valor Minuet IV
+spellActorTierDefinitions[398] = { hasActorTier = true, tier = 5 }; -- Valor Minuet V
+spellActorTierDefinitions[399] = { hasActorTier = true, tier = 1 }; -- Sword Madrigal
+spellActorTierDefinitions[400] = { hasActorTier = true, tier = 2 }; -- Blade Madrigal
+spellActorTierDefinitions[401] = { hasActorTier = true, tier = 1 }; -- Hunters Prelude
+spellActorTierDefinitions[402] = { hasActorTier = true, tier = 2 }; -- Archers Prelude
+spellActorTierDefinitions[403] = { hasActorTier = true, tier = 1 }; -- Sheepfoe Mambo
+spellActorTierDefinitions[404] = { hasActorTier = true, tier = 2 }; -- Dragonfoe Mambo
+spellActorTierDefinitions[419] = { hasActorTier = true, tier = 1 }; -- Advancing March
+spellActorTierDefinitions[420] = { hasActorTier = true, tier = 2 }; -- Victory March
+spellActorTierDefinitions[421] = { hasActorTier = true, tier = 1 }; -- Battlefield Elegy
+spellActorTierDefinitions[422] = { hasActorTier = true, tier = 2 }; -- Carnage Elegy
+spellActorTierDefinitions[454] = { hasActorTier = true, tier = 1 }; -- Fire Threnody
+spellActorTierDefinitions[455] = { hasActorTier = true, tier = 1 }; -- Ice Threnody
+spellActorTierDefinitions[456] = { hasActorTier = true, tier = 1 }; -- Wind Threnody
+spellActorTierDefinitions[457] = { hasActorTier = true, tier = 1 }; -- Earth Threnody
+spellActorTierDefinitions[458] = { hasActorTier = true, tier = 1 }; -- Lightning Threnody
+spellActorTierDefinitions[459] = { hasActorTier = true, tier = 1 }; -- Water Threnody
+spellActorTierDefinitions[460] = { hasActorTier = true, tier = 1 }; -- Light Threnody
+spellActorTierDefinitions[461] = { hasActorTier = true, tier = 1 }; -- Dark Threnody
+
+local defaultSpellActorTierDefinitions = { hasActorTier = false, tier = 0 };
+
+-- Actor/Tier per status effect
+-- Used for effect wearing off
+local statusActorTierDefinitions = { };
+
+statusActorTierDefinitions[192] = { hasActorTier = true }; -- Requiem
+statusActorTierDefinitions[193] = { hasActorTier = true }; -- Lullaby
+statusActorTierDefinitions[194] = { hasActorTier = true }; -- Elegy
+statusActorTierDefinitions[195] = { hasActorTier = true }; -- Paeon
+statusActorTierDefinitions[196] = { hasActorTier = true }; -- Ballad
+statusActorTierDefinitions[197] = { hasActorTier = true }; -- Minne
+statusActorTierDefinitions[198] = { hasActorTier = true }; -- Minuet
+statusActorTierDefinitions[199] = { hasActorTier = true }; -- Madrigal
+statusActorTierDefinitions[200] = { hasActorTier = true }; -- Prelude
+statusActorTierDefinitions[201] = { hasActorTier = true }; -- Mambo
+statusActorTierDefinitions[202] = { hasActorTier = true }; -- Aubade
+statusActorTierDefinitions[203] = { hasActorTier = true }; -- Pastoral
+statusActorTierDefinitions[204] = { hasActorTier = true }; -- Hum
+statusActorTierDefinitions[205] = { hasActorTier = true }; -- Fantasia
+statusActorTierDefinitions[206] = { hasActorTier = true }; -- Operetta
+statusActorTierDefinitions[207] = { hasActorTier = true }; -- Capriccio
+statusActorTierDefinitions[208] = { hasActorTier = true }; -- Serenade
+statusActorTierDefinitions[209] = { hasActorTier = true }; -- Round
+statusActorTierDefinitions[210] = { hasActorTier = true }; -- Gavotte
+statusActorTierDefinitions[211] = { hasActorTier = true }; -- Fugue
+statusActorTierDefinitions[212] = { hasActorTier = true }; -- Rhapsody
+statusActorTierDefinitions[213] = { hasActorTier = true }; -- Aria
+statusActorTierDefinitions[214] = { hasActorTier = true }; -- March
+statusActorTierDefinitions[215] = { hasActorTier = true }; -- Etude
+statusActorTierDefinitions[216] = { hasActorTier = true }; -- Carol
+statusActorTierDefinitions[217] = { hasActorTier = true }; -- Threnody
+statusActorTierDefinitions[218] = { hasActorTier = true }; -- Hymnus
+statusActorTierDefinitions[219] = { hasActorTier = true }; -- Mazurka
+statusActorTierDefinitions[220] = { hasActorTier = true }; -- Sirvente
+statusActorTierDefinitions[221] = { hasActorTier = true }; -- Dirge
+statusActorTierDefinitions[222] = { hasActorTier = true }; -- Scherzo
+statusActorTierDefinitions[223] = { hasActorTier = true }; -- Nocturne
+
+local defaultStatusActorTierDefinitions = { hasActorTier = false };
+
 local lastrender = 0;
 
 ---------------------------------------------------------------------------------------------------
@@ -486,7 +590,7 @@ local function getMobAction(mobitem, statusid, statusname)
         mobitem.actions = { };
     end
 
-    actionitem = mobitem.actions[statuskey];
+    local actionitem = mobitem.actions[statuskey];
     if (actionitem == nil) then
         actionitem = { };
         actionitem.id = statusid;
@@ -495,6 +599,56 @@ local function getMobAction(mobitem, statusid, statusname)
     end
 
     return actionitem;
+end
+
+local function getActorTier(actionitem, actorid, actorname, tier)
+    -- Need actor and tier for songs
+    local actortierkey = tostring(actorid) .. '|' .. tostring(tier);
+
+    if (actionitem.actortiers == nil) then
+        actionitem.actortiers = { };
+    end
+
+    local actortieritem = actionitem.actortiers[actortierkey];
+    if (actortieritem == nil) then
+        actortieritem = { };
+        actortieritem.actorid = actorid;
+        actortieritem.actorname = actorname;
+        actortieritem.tier = tier;
+        actionitem.actortiers[actortierkey] = actortieritem;
+    end
+
+    return actortieritem;
+end
+
+---------------------------------------------------------------------------------------------------
+-- func: searchActorTier
+-- desc: Finds the oldest active actor/tier entry for a particular status on a mob.
+---------------------------------------------------------------------------------------------------
+local function searchActorTier(actionitem)
+    if (actionitem.actortiers == nil) then
+        return getActorTier(actionitem, 0, 'UNKNOWN_ACTOR', 0);
+    end
+
+    -- User current time as starting point for search
+    -- Nothing should really be very close, relatively speaking, to the current time
+    local modified = os.clock();
+    local actortieritem;
+
+    for k, v in pairs(actionitem.actortiers) do
+        -- Check active flag to exclude anything already explicitly flagged as inactive
+        -- Otherwise old entries could keep getting found as matches
+        if (v.active and modified > v.modified) then
+            modified = v.modified
+            actortieritem = v;
+        end
+    end
+
+    if (actortieritem == nil) then
+        return getActorTier(actionitem, 0, 'UNKNOWN_ACTOR', 0);
+    end
+
+    return actortieritem;
 end
 
 local function formatTimespan(value)
@@ -556,6 +710,7 @@ local function handleActionPacket(id, size, packet)
             local action = target.actions[y];
 
             local messageDef;
+            local actorTierDef;
 
             local hasStatus;
             local hasSpell;
@@ -605,6 +760,8 @@ local function handleActionPacket(id, size, packet)
                     -- Player/mob buffs
                     hasStatus = true;
                     statusInfo = getStatusInfo(0x01, action.param);
+
+                    actorTierDef = spellActorTierDefinitions[pp.param];
                 elseif (action.message_id == 236 or action.message_id == 277) then -- The <player> casts <spell>. <target> is <effect>.
                     hasStatus = true;
                     statusInfo = getStatusInfo(0x01, action.param);
@@ -624,6 +781,8 @@ local function handleActionPacket(id, size, packet)
                             statusInfo = getStatusInfo(0x01, action.param);
                         end
                     end
+
+                    actorTierDef = spellActorTierDefinitions[pp.param];
                 elseif (action.message_id == 329
                     or action.message_id == 330
                     or action.message_id == 331
@@ -794,6 +953,10 @@ local function handleActionPacket(id, size, packet)
             end
 
             if (hasTarget and hasStatus) then
+                if (actorTierDef == nil) then
+                    actorTierDef = defaultSpellActorTierDefinitions;
+                end
+
                 local mobitem = getMob(targetInfo.index, targetInfo.name);
                 local actionitem = getMobAction(mobitem, statusInfo.id, statusInfo.name);
 
@@ -807,10 +970,21 @@ local function handleActionPacket(id, size, packet)
                 mobitem.useDuration = nil;
                 mobitem.duration = nil;
                 mobitem.mobStatus = nil;
-                actionitem.message_id = action.message_id;
-                actionitem.modified = os.clock();
-                actionitem.showDecayTime = messageDef.showDecayTime;
-                actionitem.useDuration = messageDef.useDuration;
+
+                local currentitem;
+
+                if (actorTierDef.hasActorTier) then
+                    local actortieritem = getActorTier(actionitem, pp.actor_id, actorInfo.name, actorTierDef.tier);
+                    currentitem = actortieritem;
+                else
+                    currentitem = actionitem;
+                end
+
+                currentitem.active = true;
+                currentitem.message_id = action.message_id;
+                currentitem.modified = os.clock();
+                currentitem.showDecayTime = messageDef.showDecayTime;
+                currentitem.useDuration = messageDef.useDuration;
 
                 if (hasSpell) then
                     local dur = spellDurations[spellInfo.id];
@@ -819,9 +993,9 @@ local function handleActionPacket(id, size, packet)
                     end
 
                     -- Store spell id/name
-                    actionitem.spell_id = spellInfo.id;
-                    actionitem.spell_name = spellInfo.name;
-                    actionitem.duration = dur;
+                    currentitem.spell_id = spellInfo.id;
+                    currentitem.spell_name = spellInfo.name;
+                    currentitem.duration = dur;
                 elseif (hasJobAbility) then
                     local dur = jobAbilityDurations[jobAbilityInfo.id];
                     if (dur == nil) then
@@ -829,9 +1003,9 @@ local function handleActionPacket(id, size, packet)
                     end
 
                     -- Store job ability id/name
-                    actionitem.job_ability_id = jobAbilityInfo.id;
-                    actionitem.job_ability_name = jobAbilityInfo.name;
-                    actionitem.duration = dur;
+                    currentitem.job_ability_id = jobAbilityInfo.id;
+                    currentitem.job_ability_name = jobAbilityInfo.name;
+                    currentitem.duration = dur;
                 elseif (hasMobAbility) then
                     local dur = mobAbilityDurations[mobAbilityInfo.id];
                     if (dur == nil) then
@@ -839,9 +1013,9 @@ local function handleActionPacket(id, size, packet)
                     end
 
                     -- Store mob ability id/name
-                    actionitem.mob_ability_id = mobAbilityInfo.id;
-                    actionitem.mob_ability_name = mobAbilityInfo.name;
-                    actionitem.duration = dur;
+                    currentitem.mob_ability_id = mobAbilityInfo.id;
+                    currentitem.mob_ability_name = mobAbilityInfo.name;
+                    currentitem.duration = dur;
                 elseif (hasDance) then
                     local dur = danceDurations[danceInfo.id];
                     if (dur == nil) then
@@ -849,13 +1023,13 @@ local function handleActionPacket(id, size, packet)
                     end
 
                     -- Store dance id/name
-                    actionitem.dance_id = danceInfo.id;
-                    actionitem.dance_name = danceInfo.name;
-                    actionitem.duration = dur;
+                    currentitem.dance_id = danceInfo.id;
+                    currentitem.dance_name = danceInfo.name;
+                    currentitem.duration = dur;
                 else
-                    actionitem.spell_id = 0;
-                    actionitem.spell_name = nil;
-                    actionitem.duration = defaultUnknownDurations;
+                    currentitem.spell_id = 0;
+                    currentitem.spell_name = nil;
+                    currentitem.duration = defaultUnknownDurations;
                 end
             end
         end
@@ -888,6 +1062,8 @@ local function handleMessageBasicPacket(id, size, packet)
         end
     end
 
+    local actorTierDef;
+
     if (pp.message_id == 6) then -- The <player> defeats <target>.
         statusType = 0x01;
     elseif (pp.message_id == 20) then -- <target> falls to the ground.
@@ -895,6 +1071,8 @@ local function handleMessageBasicPacket(id, size, packet)
     elseif (pp.message_id == 206) then -- <target>'s <param> effect wears off.
         statusType = 0x02;
         statusInfo = getStatusInfo(0x01, pp.param_1);
+
+        actorTierDef = statusActorTierDefinitions[pp.param_1];
     else
         statusType = 0x00;
     end
@@ -920,6 +1098,10 @@ local function handleMessageBasicPacket(id, size, packet)
             mobitem.duration = defaultBasicDurations;
             mobitem.mobStatus = mobStat;
         elseif (statusType == 0x02) then
+            if (actorTierDef == nil) then
+                actorTierDef = defaultStatusActorTierDefinitions;
+            end
+
             local actionitem = getMobAction(mobitem, statusInfo.id, statusInfo.name);
 
             mobitem.message_id = nil;
@@ -928,11 +1110,22 @@ local function handleMessageBasicPacket(id, size, packet)
             mobitem.useDuration = nil;
             mobitem.duration = nil;
             mobitem.mobStatus = nil;
-            actionitem.message_id = pp.message_id;
-            actionitem.modified = os.clock();
-            actionitem.showDecayTime = messageDef.showDecayTime;
-            actionitem.useDuration = messageDef.useDuration;
-            actionitem.duration = defaultBasicDurations;
+
+            local currentitem;
+
+            if (actorTierDef.hasActorTier) then
+                local actortieritem = searchActorTier(actionitem);
+                currentitem = actortieritem;
+            else
+                currentitem = actionitem;
+            end
+
+            currentitem.active = false;
+            currentitem.message_id = pp.message_id;
+            currentitem.modified = os.clock();
+            currentitem.showDecayTime = messageDef.showDecayTime;
+            currentitem.useDuration = messageDef.useDuration;
+            currentitem.duration = defaultBasicDurations;
         else
             print(string.format('Status type out of range: %d', statusType));
         end
@@ -1040,6 +1233,9 @@ ashita.register_event('command', function(cmd, nType)
                 else
                     print('Empty!');
                 end
+            elseif (args[2] == 'dump')  then
+                print('Dumping fx...');
+                settings:save(_addon.path .. 'settings/dump.json', statuseffects.mobs);
             end
         end
     end
@@ -1146,11 +1342,30 @@ ashita.register_event('render', function()
                     -- Mob status effects
                     for k2, v2 in pairs(mob.actions) do
                         local action = v2;
-                        if (count < 32) then
-                            s = formatEntry(currenttime, mob_is_target_string, mob.entitytype, mob.isself, mob.name, action.name, action.modified, action.showDecayTime, action.useDuration, action.duration);
-                            if (s ~= nil) then
-                                table.insert(e, s);
-                                count = count + 1;
+
+                        if (action.message_id ~= nil) then
+                            if (count < 32) then
+                                s = formatEntry(currenttime, mob_is_target_string, mob.entitytype, mob.isself, mob.name, action.name, action.modified, action.showDecayTime, action.useDuration, action.duration);
+                                if (s ~= nil) then
+                                    table.insert(e, s);
+                                    count = count + 1;
+                                end
+                            end
+                        else
+                            for k3, v3 in pairs(action.actortiers) do
+                                local actortier = v3;
+
+                                if (count < 32) then
+                                    local formattedactionname = action.name .. tiers[actortier.tier] .. ' (' .. actortier.actorname .. ')';
+
+                                    s = formatEntry(currenttime, mob_is_target_string, mob.entitytype, mob.isself, mob.name, formattedactionname, actortier.modified, actortier.showDecayTime, actortier.useDuration, actortier.duration);
+                                    if (s ~= nil) then
+                                        table.insert(e, s);
+                                        count = count + 1;
+                                    end
+                                end
+
+                                totalcount = totalcount + 1;
                             end
                         end
 
