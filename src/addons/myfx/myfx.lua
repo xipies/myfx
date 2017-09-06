@@ -344,46 +344,45 @@ spellActorTierDefinitions[459] = { hasActorTier = true, tier = 1 }; -- Water Thr
 spellActorTierDefinitions[460] = { hasActorTier = true, tier = 1 }; -- Light Threnody
 spellActorTierDefinitions[461] = { hasActorTier = true, tier = 1 }; -- Dark Threnody
 
-local defaultSpellActorTierDefinitions = { hasActorTier = false, tier = 0 };
-
 -- Actor/Tier per status effect
 -- Used for effect wearing off
 local statusActorTierDefinitions = { };
 
-statusActorTierDefinitions[192] = { hasActorTier = true }; -- Requiem
-statusActorTierDefinitions[193] = { hasActorTier = true }; -- Lullaby
-statusActorTierDefinitions[194] = { hasActorTier = true }; -- Elegy
-statusActorTierDefinitions[195] = { hasActorTier = true }; -- Paeon
-statusActorTierDefinitions[196] = { hasActorTier = true }; -- Ballad
-statusActorTierDefinitions[197] = { hasActorTier = true }; -- Minne
-statusActorTierDefinitions[198] = { hasActorTier = true }; -- Minuet
-statusActorTierDefinitions[199] = { hasActorTier = true }; -- Madrigal
-statusActorTierDefinitions[200] = { hasActorTier = true }; -- Prelude
-statusActorTierDefinitions[201] = { hasActorTier = true }; -- Mambo
-statusActorTierDefinitions[202] = { hasActorTier = true }; -- Aubade
-statusActorTierDefinitions[203] = { hasActorTier = true }; -- Pastoral
-statusActorTierDefinitions[204] = { hasActorTier = true }; -- Hum
-statusActorTierDefinitions[205] = { hasActorTier = true }; -- Fantasia
-statusActorTierDefinitions[206] = { hasActorTier = true }; -- Operetta
-statusActorTierDefinitions[207] = { hasActorTier = true }; -- Capriccio
-statusActorTierDefinitions[208] = { hasActorTier = true }; -- Serenade
-statusActorTierDefinitions[209] = { hasActorTier = true }; -- Round
-statusActorTierDefinitions[210] = { hasActorTier = true }; -- Gavotte
-statusActorTierDefinitions[211] = { hasActorTier = true }; -- Fugue
-statusActorTierDefinitions[212] = { hasActorTier = true }; -- Rhapsody
-statusActorTierDefinitions[213] = { hasActorTier = true }; -- Aria
-statusActorTierDefinitions[214] = { hasActorTier = true }; -- March
-statusActorTierDefinitions[215] = { hasActorTier = true }; -- Etude
-statusActorTierDefinitions[216] = { hasActorTier = true }; -- Carol
-statusActorTierDefinitions[217] = { hasActorTier = true }; -- Threnody
-statusActorTierDefinitions[218] = { hasActorTier = true }; -- Hymnus
-statusActorTierDefinitions[219] = { hasActorTier = true }; -- Mazurka
-statusActorTierDefinitions[220] = { hasActorTier = true }; -- Sirvente
-statusActorTierDefinitions[221] = { hasActorTier = true }; -- Dirge
-statusActorTierDefinitions[222] = { hasActorTier = true }; -- Scherzo
-statusActorTierDefinitions[223] = { hasActorTier = true }; -- Nocturne
+statusActorTierDefinitions[192] = { hasActorTier = true, tier = 0 }; -- Requiem
+statusActorTierDefinitions[193] = { hasActorTier = true, tier = 0 }; -- Lullaby
+statusActorTierDefinitions[194] = { hasActorTier = true, tier = 0 }; -- Elegy
+statusActorTierDefinitions[195] = { hasActorTier = true, tier = 0 }; -- Paeon
+statusActorTierDefinitions[196] = { hasActorTier = true, tier = 0 }; -- Ballad
+statusActorTierDefinitions[197] = { hasActorTier = true, tier = 0 }; -- Minne
+statusActorTierDefinitions[198] = { hasActorTier = true, tier = 0 }; -- Minuet
+statusActorTierDefinitions[199] = { hasActorTier = true, tier = 0 }; -- Madrigal
+statusActorTierDefinitions[200] = { hasActorTier = true, tier = 0 }; -- Prelude
+statusActorTierDefinitions[201] = { hasActorTier = true, tier = 0 }; -- Mambo
+statusActorTierDefinitions[202] = { hasActorTier = true, tier = 0 }; -- Aubade
+statusActorTierDefinitions[203] = { hasActorTier = true, tier = 0 }; -- Pastoral
+statusActorTierDefinitions[204] = { hasActorTier = true, tier = 0 }; -- Hum
+statusActorTierDefinitions[205] = { hasActorTier = true, tier = 0 }; -- Fantasia
+statusActorTierDefinitions[206] = { hasActorTier = true, tier = 0 }; -- Operetta
+statusActorTierDefinitions[207] = { hasActorTier = true, tier = 0 }; -- Capriccio
+statusActorTierDefinitions[208] = { hasActorTier = true, tier = 0 }; -- Serenade
+statusActorTierDefinitions[209] = { hasActorTier = true, tier = 0 }; -- Round
+statusActorTierDefinitions[210] = { hasActorTier = true, tier = 0 }; -- Gavotte
+statusActorTierDefinitions[211] = { hasActorTier = true, tier = 0 }; -- Fugue
+statusActorTierDefinitions[212] = { hasActorTier = true, tier = 0 }; -- Rhapsody
+statusActorTierDefinitions[213] = { hasActorTier = true, tier = 0 }; -- Aria
+statusActorTierDefinitions[214] = { hasActorTier = true, tier = 0 }; -- March
+statusActorTierDefinitions[215] = { hasActorTier = true, tier = 0 }; -- Etude
+statusActorTierDefinitions[216] = { hasActorTier = true, tier = 0 }; -- Carol
+statusActorTierDefinitions[217] = { hasActorTier = true, tier = 0 }; -- Threnody
+statusActorTierDefinitions[218] = { hasActorTier = true, tier = 0 }; -- Hymnus
+statusActorTierDefinitions[219] = { hasActorTier = true, tier = 0 }; -- Mazurka
+statusActorTierDefinitions[220] = { hasActorTier = true, tier = 0 }; -- Sirvente
+statusActorTierDefinitions[221] = { hasActorTier = true, tier = 0 }; -- Dirge
+statusActorTierDefinitions[222] = { hasActorTier = true, tier = 0 }; -- Scherzo
+statusActorTierDefinitions[223] = { hasActorTier = true, tier = 0 }; -- Nocturne
 
-local defaultStatusActorTierDefinitions = { hasActorTier = false };
+-- Use for both spell-based and status-based
+local defaultUnknownActorTierDefinitions = { hasActorTier = false, tier = 0 };
 
 local lastrender = 0;
 
@@ -804,6 +803,8 @@ local function handleActionPacket(id, size, packet)
                     -- Dispel/Finale
                     hasStatus = true;
                     statusInfo = getStatusInfo(0x01, action.param);
+
+                    actorTierDef = statusActorTierDefinitions[action.param];
                 elseif (action.message_id == 533) then -- The <player> casts <spell>. <target>'s Accuracy is drained.
                     -- Absorb-ACC
 
@@ -885,6 +886,8 @@ local function handleActionPacket(id, size, packet)
                     -- ex: Opo-opo using Blank Gaze
                     hasStatus = true;
                     statusInfo = getStatusInfo(0x01, action.param);
+
+                    actorTierDef = statusActorTierDefinitions[action.param];
                 elseif (action.message_id == 185 or action.message_id == 264) then -- The <player> uses .. <target> takes .. points of damage.
                     -- ex: Yagudo using Feather Storm
 
@@ -954,7 +957,7 @@ local function handleActionPacket(id, size, packet)
 
             if (hasTarget and hasStatus) then
                 if (actorTierDef == nil) then
-                    actorTierDef = defaultSpellActorTierDefinitions;
+                    actorTierDef = defaultUnknownActorTierDefinitions;
                 end
 
                 local mobitem = getMob(targetInfo.index, targetInfo.name);
@@ -974,7 +977,18 @@ local function handleActionPacket(id, size, packet)
                 local currentitem;
 
                 if (actorTierDef.hasActorTier) then
-                    local actortieritem = getActorTier(actionitem, pp.actor_id, actorInfo.name, actorTierDef.tier);
+                    local actortieritem;
+
+                    if (actorTierDef.tier > 0) then
+                        -- Have actor/tier, so get directly
+                        -- ex: Song was sung
+                        actortieritem = getActorTier(actionitem, pp.actor_id, actorInfo.name, actorTierDef.tier);
+                    else
+                        -- Do not have actor/tier, so search
+                        -- ex: Dispel
+                        actortieritem = searchActorTier(actionitem);
+                    end
+
                     currentitem = actortieritem;
                 else
                     currentitem = actionitem;
@@ -1099,7 +1113,7 @@ local function handleMessageBasicPacket(id, size, packet)
             mobitem.mobStatus = mobStat;
         elseif (statusType == 0x02) then
             if (actorTierDef == nil) then
-                actorTierDef = defaultStatusActorTierDefinitions;
+                actorTierDef = defaultUnknownActorTierDefinitions;
             end
 
             local actionitem = getMobAction(mobitem, statusInfo.id, statusInfo.name);
