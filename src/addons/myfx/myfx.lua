@@ -949,7 +949,7 @@ local function handleActionPacket(id, size, packet)
                     statusInfo = nil;
                 end
             else
-                messageDef = defaultUnknownDefinitions;
+                messageDef = defaultUnknownMessageDefinitions;
 
                 hasStatus = false;
                 statusInfo = nil;
@@ -1067,6 +1067,8 @@ local function handleMessageBasicPacket(id, size, packet)
         messageDef = defaultBasicMessageDefinitions;
     end
 
+    local targetInfo;
+
     if (messageDef.resolveTarget) then
         targetInfo = getEntityInfo(zoneid, pp.target_id);
         if (targetInfo ~= nil and targetInfo.entitytype > 0x00) then
@@ -1077,6 +1079,8 @@ local function handleMessageBasicPacket(id, size, packet)
     end
 
     local actorTierDef;
+
+    local statusInfo;
 
     if (pp.message_id == 6) then -- The <player> defeats <target>.
         statusType = 0x01;
