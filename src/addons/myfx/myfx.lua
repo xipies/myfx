@@ -1241,6 +1241,7 @@ ashita.register_event('command', function(cmd, nType)
             if (args[2] == 'reset')  then
                 print('Resetting fx...');
                 statuseffects = { };
+                return true;
             elseif (args[2] == 'debug')  then
                 -- TODO: Clean up display (e.g., show action per line)
                 print('Debug fx...');
@@ -1251,12 +1252,16 @@ ashita.register_event('command', function(cmd, nType)
                 else
                     print('Empty!');
                 end
+                return true;
             elseif (args[2] == 'dump')  then
                 print('Dumping fx...');
                 settings:save(_addon.path .. 'settings/dump.json', statuseffects.mobs);
+                return true;
             end
         end
     end
+
+    return false;
 end);
 
 ashita.register_event('incoming_packet', function(id, size, packet)
