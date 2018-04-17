@@ -416,6 +416,15 @@ local default_config =
 };
 local myfx_config = default_config;
 
+local function unsz(s)
+    local pos = string.find(s, '\0');
+    if (pos ~= nil and pos > 0) then
+        return string.sub(s, 1, pos - 1);
+    end
+
+    return s;
+end
+
 ---------------------------------------------------------------------------------------------------
 -- func: color_entry
 -- desc: Colors an entry.
@@ -480,7 +489,8 @@ local function getEntityInfo(zoneid, entityid)
         entityname = 'UNKNOWN_MOB';
     end
 
-    return { id = entityid, index = entityindex, name = entityname, entitytype = entitytype, isself = isself };
+    -- Convert null terminated strings
+    return { id = entityid, index = entityindex, name = unsz(entityname), entitytype = entitytype, isself = isself };
 end
 
 local function getStatusInfo(statustype, statusid)
