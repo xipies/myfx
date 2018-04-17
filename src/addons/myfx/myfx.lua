@@ -1,7 +1,7 @@
 
 _addon.author   = 'Eleven Pies';
 _addon.name     = 'MyEffects';
-_addon.version  = '2.0.0';
+_addon.version  = '3.0.0';
 
 require 'common'
 require 'mob.mobinfo'
@@ -402,16 +402,16 @@ local default_config =
     },
     colors =
     {
-        time_long     = '252,252,252',
-        time_medium   = '255,255,96',
-        time_short    = '252,64,64',
-        time_expired  = '128,128,128',
-        is_target     = '252,252,252',
-        self_name     = '128,184,248',
-        player_name   = '192,252,252',
-        mob_name      = '252,252,252',
-        action_name   = '255,255,176',
-        decay         = '128,128,128'
+        time_long     = 'FFFCFCFC',
+        time_medium   = 'FFFFFF60',
+        time_short    = 'FFFC4040',
+        time_expired  = 'FF808080',
+        is_target     = 'FFFCFCFC',
+        self_name     = 'FF80B8F8',
+        player_name   = 'FFC0FCFC',
+        mob_name      = 'FFFCFCFC',
+        action_name   = 'FFFFFFB0',
+        decay         = 'FF808080'
     }
 };
 local myfx_config = default_config;
@@ -430,7 +430,13 @@ end
 -- desc: Colors an entry.
 ---------------------------------------------------------------------------------------------------
 local function color_entry(s, c)
-    return string.format('\\cs(%s)%s\\cr', c, s);
+    -- v2 format
+    -- \cs(r,g,b)<text here>\cr
+    -- \cs(a,r,g,b)<text here>\cr
+    ----return string.format('\\cs(%s)%s\\cr', c, s);
+    -- v3 format
+    -- |cAARRGGBB|<text here>|r
+    return string.format('|c%s|%s|r', c, s);
 end
 
 local function findEntity(entityid)
@@ -444,7 +450,7 @@ local function findEntity(entityid)
     -- Search players
     for x = 0x400, 0x6FF do
         local ent = GetEntity(x);
-        if (ent ~= nil and ent.ServerID == entityid) then
+        if (ent ~= nil and ent.ServerId == entityid) then
             return { id = entityid, index = x, name = ent.Name };
         end
     end
@@ -474,7 +480,7 @@ local function getEntityInfo(zoneid, entityid)
             entitytype = 0x01; -- TYPE_PC
 
             -- If player, determine if player is self
-            local selftarget = AshitaCore:GetDataManager():GetParty():GetPartyMemberTargetIndex(0);
+            local selftarget = AshitaCore:GetDataManager():GetParty():GetMemberTargetIndex(0);
             if (entityindex == selftarget) then
                 isself = true;
             end
@@ -512,7 +518,7 @@ local function getStatusInfo(statustype, statusid)
 end
 
 local function getSpellInfo(spellid)
-    local spellobj = AshitaCore:GetResourceManager():GetSpellByID(spellid);
+    local spellobj = AshitaCore:GetResourceManager():GetSpellById(spellid);
     local spellname;
     if (spellobj ~= nil) then
         spellname = spellobj.Name[0];
@@ -527,7 +533,7 @@ end
 
 local function getJobAbilityInfo(jobabilityid)
     -- Job abilities begin after 512
-    local jobabilityobj = AshitaCore:GetResourceManager():GetAbilityByID(jobabilityid + 512);
+    local jobabilityobj = AshitaCore:GetResourceManager():GetAbilityById(jobabilityid + 512);
     local jobabilityname;
     if (jobabilityobj ~= nil) then
         jobabilityname = jobabilityobj.Name[0];
@@ -557,7 +563,7 @@ end
 local function getDanceInfo(danceid)
     -- Same as job abilities
     -- Job abilities begin after 512
-    local danceobj = AshitaCore:GetResourceManager():GetAbilityByID(danceid + 512);
+    local danceobj = AshitaCore:GetResourceManager():GetAbilityById(danceid + 512);
     local dancename;
     if (danceobj ~= nil) then
         dancename = danceobj.Name[0];
@@ -1244,7 +1250,7 @@ local function formatEntry(currenttime, mob_is_target_string, entitytype, isself
 end
 
 ashita.register_event('command', function(cmd, nType)
-    local args = cmd:GetArgs();
+    local args = cmd:args();
 
     if (#args > 0 and args[1] == '/fx')  then
         if (#args > 1)  then
@@ -1257,7 +1263,7 @@ ashita.register_event('command', function(cmd, nType)
                 print('Debug fx...');
                 if (statuseffects.mobs ~= nil) then
                     for k, v in pairs(statuseffects.mobs) do
-                        print(tostring(k) .. ':' .. settings.JSON:encode(v));
+                        print(tostring(k) .. ':' .. ashita.settings.JSON:encode(v));
                     end
                 else
                     print('Empty!');
@@ -1265,7 +1271,7 @@ ashita.register_event('command', function(cmd, nType)
                 return true;
             elseif (args[2] == 'dump')  then
                 print('Dumping fx...');
-                settings:save(_addon.path .. 'settings/dump.json', statuseffects.mobs);
+                ashita.settings.save(_addon.path .. 'settings/dump.json', statuseffects.mobs);
                 return true;
             end
         end
@@ -1299,15 +1305,17 @@ ashita.register_event('load', function()
     __mobinfo_load();
 
     -- Attempt to load the MyEffects configuration..
-    myfx_config = settings:load(_addon.path .. 'settings/myfx.json') or default_config;
+    myfx_config = ashita.settings.load(_addon.path .. 'settings/myfx.json') or default_config;
     myfx_config = table.merge(default_config, myfx_config);
 
     -- Create our font object..
-    local f = AshitaCore:GetFontManager():CreateFontObject( '__myfx_addon' );
+    local f = AshitaCore:GetFontManager():Create( '__myfx_addon' );
     f:SetBold( false );
     f:SetColor( myfx_config.font.color );
-    f:SetFont( myfx_config.font.name, myfx_config.font.size );
-    f:SetPosition( myfx_config.font.position[1], myfx_config.font.position[2] );
+    f:SetFontFamily(myfx_config.font.name);
+    f:SetFontHeight(myfx_config.font.size);
+    f:SetPositionX(myfx_config.font.position[1]);
+    f:SetPositionY(myfx_config.font.position[2]);
     f:SetText( '' );
     f:SetVisibility( true );
     f:GetBackground():SetColor( myfx_config.font.bgcolor );
@@ -1315,19 +1323,19 @@ ashita.register_event('load', function()
 end );
 
 ashita.register_event('unload', function()
-    local f = AshitaCore:GetFontManager():GetFontObject( '__myfx_addon' );
+    local f = AshitaCore:GetFontManager():Get( '__myfx_addon' );
     myfx_config.font.position = { f:GetPositionX(), f:GetPositionY() };
 
     -- Ensure the settings folder exists..
-    if (not file:dir_exists(_addon.path .. 'settings')) then
-        file:create_dir(_addon.path .. 'settings');
+    if (not ashita.file.dir_exists(_addon.path .. 'settings')) then
+        ashita.file.create_dir(_addon.path .. 'settings');
     end
 
     -- Save the configuration..
-    settings:save(_addon.path .. 'settings/myfx.json', myfx_config);
+    ashita.settings.save(_addon.path .. 'settings/myfx.json', myfx_config);
 
     -- Unload our font object..
-    AshitaCore:GetFontManager():DeleteFontObject( '__myfx_addon' );
+    AshitaCore:GetFontManager():Delete( '__myfx_addon' );
 end );
 
 ---------------------------------------------------------------------------------------------------
@@ -1341,21 +1349,22 @@ ashita.register_event('render', function()
     if ((lastrender + 0.1) < currenttime) then
         lastrender = currenttime;
 
-        local f = AshitaCore:GetFontManager():GetFontObject( '__myfx_addon' );
+        local f = AshitaCore:GetFontManager():Get( '__myfx_addon' );
         local e = { }; -- Effect entries..
 
         if (statuseffects.mobs ~= nil) then
             local count = 0;
             local totalcount = 0;
             local mob_is_target_string;
-            local target = AshitaCore:GetDataManager():GetTarget():GetTargetEntity();
+            local targetptr = AshitaCore:GetDataManager():GetTarget():GetTargetEntityPointer();
+            local targetindex = AshitaCore:GetDataManager():GetTarget():GetTargetIndex();
             local s;
 
             for k, v in pairs(statuseffects.mobs) do
                 local mob = v;
 
                 -- Show asterisk if selected rather than mob index
-                if (target ~= nil and mob.index == target.TargetID) then
+                if (targetptr ~= nil and mob.index == targetindex) then
                     mob_is_target_string = '*';
                 else
                     mob_is_target_string = ' ';
